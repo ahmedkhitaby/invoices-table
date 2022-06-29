@@ -194,13 +194,13 @@ const getPaybackRow = (dataEntity) => ({
 
 const getTableData = (data) => {
   return data
-    .sort((first, second) => second.date > first.date)
+    .sort((first, second) => (second.date > first.date ? 1 : -1))
     .reduce((prev, next) => {
       if (next.status === "paid") {
         return [...prev, getPaymentRow(next)];
       } else if (next.status === "settled") {
         const settledRows = [getPaymentRow(next), getPaybackRow(next)].sort(
-          (first, second) => second.date < first.date
+          (first, second) => (second.date < first.date ? -1 : 1)
         );
         return [...prev, ...settledRows];
       }
